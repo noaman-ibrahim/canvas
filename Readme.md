@@ -17,6 +17,7 @@ A simple console drawing program in java.
 __Sample Run__
 
 Below is the output from a sample run of the program.
+````text
 
 Enter command: C 20 4
 --------------------
@@ -75,3 +76,4 @@ Enter command: B 1 2 .
 --------------------
 
 Enter command: Q
+````
