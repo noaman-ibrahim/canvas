@@ -11,7 +11,7 @@ public class CanvasFactory {
 			return new Canvas(ContextEnum.CONTEXT2D, width, height);
 		default:
 			// We can issue warnings or exceptions here but for simplicity,
-			// returning null. 
+			// returning null. We may also return a canvas with a default context. 
 			return null;
 		}
 	}

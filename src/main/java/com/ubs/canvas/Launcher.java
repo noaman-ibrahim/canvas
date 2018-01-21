@@ -16,7 +16,7 @@ import com.ubs.canvas.factory.CanvasFactory;
  */
 public class Launcher implements CommandParser {
 
-	private Canvas canvas = null;	
+	private Canvas canvas = null;
 
 	public static void main(String[] args) {
 		Launcher launcher = new Launcher();
@@ -28,33 +28,37 @@ public class Launcher implements CommandParser {
 		Scanner input = new Scanner(System.in);
 		String commandStr;
 
-		while (true) {
+		try {
+			while (true) {
 
-			System.out.print("Enter command: ");			
-			commandStr = input.nextLine();					
-			ParsedCommand parsedCommand;
+				System.out.print("Enter command: ");
+				commandStr = input.nextLine();
+				ParsedCommand parsedCommand;
 
-			try {
-				parsedCommand = parse(commandStr);
+				try {
+					parsedCommand = parse(commandStr);
 
-				if (parsedCommand.getCommand() == CommandEnum.QUIT) {
-					break;
-				} else if (parsedCommand.getCommand() == CommandEnum.CREATE_CANVAS) {
-					canvas = CanvasFactory.getCanvas(ContextEnum.CONTEXT2D, parsedCommand.getArguments()[0],
-														parsedCommand.getArguments()[1]);
-				} else if (canvas == null) {
-					System.out.println("Please create a canvas using \"C\" command before issuing any other command.");
-					continue;
-				} else {
-					canvas.executeCommand(commandStr);
+					if (parsedCommand.getCommand() == CommandEnum.QUIT) {
+						break;
+					} else if (parsedCommand.getCommand() == CommandEnum.CREATE_CANVAS) {
+						canvas = CanvasFactory.getCanvas(ContextEnum.CONTEXT2D, parsedCommand.getArguments()[0],
+								parsedCommand.getArguments()[1]);
+					} else if (canvas == null) {
+						System.out.println(
+								"Please create a canvas using \"C\" command before issuing any other command.");
+						continue;
+					} else {
+						canvas.executeCommand(commandStr);
+					}
+
+				} catch (InvalidCommandException e) {
+					System.out.println(e.getMessage());
 				}
-
-			} catch (InvalidCommandException e) {
-				System.out.println(e.getMessage());
 			}
-		}
+		} finally {
 
-		input.close();
+			input.close();
+		}
 
 	}
 
@@ -69,8 +73,8 @@ public class Launcher implements CommandParser {
 
 		try {
 			// We are only interested in parsing create and quit command here,
-			// other commands are handled by the canvas and it's context because 
-			// each context may have it's own set of supported commands and 
+			// other commands are handled by the canvas and it's context because
+			// each context may have it's own set of supported commands and
 			// it's own way of parsing a command.
 			switch (CommandEnum.getCommand(commandArr[0])) {
 			case CREATE_CANVAS:
@@ -91,11 +95,11 @@ public class Launcher implements CommandParser {
 
 		return result;
 	}
-	
+
 	/**
 	 * Visible for testing
 	 */
-	public Canvas getCanvas(){
+	public Canvas getCanvas() {
 		return canvas;
 	}
 
